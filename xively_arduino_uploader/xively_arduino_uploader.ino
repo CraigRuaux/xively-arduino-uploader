@@ -1,10 +1,11 @@
-//Receives data from the Sparkfun USB Weather Board V3, calculates variables needed for WeatherUnderground uploading and uploads via http put.
-//Wunderground upload and variables code modified from the original WIMP Weatherboard project by Nathan Seidle, whcih was itself based on Weatherboard
-//code by Mike Grusin.
-//https://learn.sparkfun.com/tutorials/weather-station-wirelessly-connected-to-wunderground
+//Receives data from the Sparkfun USB Weather Board V3, validates the data and uploads some of the data to a stream on Xivelu. 
+//This code based on the original Weatherboard code by Mike Grusin.
+
 
 //Serial reading and parsing code based on code by JHaskell - http://jhaskellsblog.blogspot.com
 //
+
+//9/1/14: Added battery voltage stream.
 //Stable version.
 
 //UdpNtpTime code modified from the Arduino tutorial written by Michael Margolis/Tom Igoe - http://arduino.cc/en/Tutorial/UdpNtpClient
@@ -57,6 +58,8 @@ char dew_point[]="Dewpoint";
 char pressure[]="Pressure";
 char wind_speed[]="windspeed";
 char wind_direction[]="Wind_Direction";
+char battpower[]="Battery";
+
 
 const int bufferSize = 140;
 char bufferValue[bufferSize]; // enough space to store the string we're going to send
@@ -67,10 +70,11 @@ CosmDatastream datastreams[] = {
   CosmDatastream(pressure, strlen(pressure), DATASTREAM_FLOAT),
   CosmDatastream(wind_speed, strlen(wind_speed), DATASTREAM_FLOAT),
   CosmDatastream(wind_direction, strlen(wind_direction), DATASTREAM_FLOAT),
+  CosmDatastream(battpower, strlen(battpower), DATASTREAM_FLOAT),
  
 };
 // Finally, wrap the datastreams into a feed
-CosmFeed feed(84186, datastreams, 6 /* number of datastreams */);
+CosmFeed feed(84186, datastreams, 7 /* number of datastreams */);
 
 EthernetClient client;
 CosmClient cosmclient(client);
@@ -214,6 +218,7 @@ void uploadData()  // actually uploading to COSM
   datastreams[3].setFloat(mbar);
   datastreams[4].setFloat(windspeed);
   datastreams[5].setFloat(winddirection);
+  datastreams[6].setFloat(batt_power);
 
 Serial.println("Uploading it to Cosm");
   int ret = cosmclient.put(feed, cosmKey);
