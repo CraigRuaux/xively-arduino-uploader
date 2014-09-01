@@ -297,7 +297,7 @@ void zeroData()
        windspeed = 0;
        winddirection = 0;
        rainfall = 0;
-       batt_power = 0;
+       //batt_power = 0;
        report= false;
 }
 
