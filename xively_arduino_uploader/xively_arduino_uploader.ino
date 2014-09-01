@@ -61,7 +61,7 @@ char wind_direction[]="Wind_Direction";
 char battpower[]="Battery";
 
 
-const int bufferSize = 140;
+const int bufferSize = 160;
 char bufferValue[bufferSize]; // enough space to store the string we're going to send
 CosmDatastream datastreams[] = {
   CosmDatastream(temp, strlen(temp), DATASTREAM_FLOAT),
@@ -297,7 +297,7 @@ void zeroData()
        windspeed = 0;
        winddirection = 0;
        rainfall = 0;
-       //batt_power = 0;
+       batt_power = 0;
        report= false;
 }
 
