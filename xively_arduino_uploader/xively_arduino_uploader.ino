@@ -5,7 +5,7 @@
 
 //Serial reading and parsing code based on code by JHaskell - http://jhaskellsblog.blogspot.com
 //
-//Stable version, do not change.
+//Stable version.
 
 //UdpNtpTime code modified from the Arduino tutorial written by Michael Margolis/Tom Igoe - http://arduino.cc/en/Tutorial/UdpNtpClient
 
@@ -233,6 +233,11 @@ void validate()  //sanity checking the data
   Serial.print("Relative light variable =");
   Serial.println(rel_light);
   Serial.println();
+  
+  if (winddirection<0)  //Occasionally it parses as -1, this converts that to 0 (i.e. North)
+  {
+    winddirection=0;
+  }
   
   if (mbar<=mbarcheck||rel_light>=0.1)
   {
