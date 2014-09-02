@@ -15,7 +15,7 @@
 #include <HttpClient.h>
 #include <Cosm.h>
 #include <EthernetUdp.h>
-
+#include <avr/wdt.h>
 
 // MAC address for Ethernet shield. This is a "dummy" or default MAC that should work, but check to see if your shield has one already assigned.
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
@@ -85,7 +85,10 @@ void setup() {
   
   Serial.println("Starting multiple datastream upload to Cosm...");
   Serial.println();
-
+  
+  wdt_enable(WDTO_8S); //enable the watchdog
+  
+  
   while (Ethernet.begin(mac) != 1)
   {
     Serial.println("Error getting IP address via DHCP, trying again...");
@@ -97,8 +100,9 @@ void setup() {
 void loop() {
  
      zeroData();
-  
-   // read the sensor data in from the X-bee:
+     wdt_reset(); //Pet the dog
+     
+      // read the sensor data in from the X-bee:
  
     while (Serial.available() > 0) {
       
@@ -196,11 +200,9 @@ if (report==true)
   //  Now print out the values via the Xbee as a CSV for the separate display
   //  
 
-  
-  
 
-  Serial.println();
-  delay(14000);
+
+  delay(5000); //5 second delay between attempts
    }
   }
  }
@@ -220,10 +222,12 @@ void uploadData()  // actually uploading to COSM
   datastreams[5].setFloat(winddirection);
   datastreams[6].setFloat(batt_power);
 
-Serial.println("Uploading it to Cosm");
-  int ret = cosmclient.put(feed, cosmKey);
-  Serial.print("cosmclient.put returned ");
-  Serial.println(ret);
+wdt_reset();
+
+Serial.println("Uploading data to Cosm");
+ int ret = cosmclient.put(feed, cosmKey);
+ // Serial.print("cosmclient.put returned ");
+ // Serial.println(ret);
 
 }
 
