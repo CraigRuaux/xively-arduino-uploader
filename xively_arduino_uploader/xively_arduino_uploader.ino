@@ -5,7 +5,7 @@
 //Serial reading and parsing code based on code by JHaskell - http://jhaskellsblog.blogspot.com
 //
 
-//9/1/14: Added battery voltage stream.
+//9/1/14: Added battery voltage stream, watchdog timer.
 //Stable version.
 
 //UdpNtpTime code modified from the Arduino tutorial written by Michael Margolis/Tom Igoe - http://arduino.cc/en/Tutorial/UdpNtpClient
