@@ -8,7 +8,7 @@
 //9/1/14: Added battery voltage stream, watchdog timer.
 //Stable version.
 
-//9/12/15: Updated to latest Xively API.
+//9/12/15: Updated to latest Xively API. COSM feeds no longer work
 
 //UdpNtpTime code modified from the Arduino tutorial written by Michael Margolis/Tom Igoe - http://arduino.cc/en/Tutorial/UdpNtpClient
 
