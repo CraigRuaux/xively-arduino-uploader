@@ -9,6 +9,7 @@
 //Stable version.
 
 //9/12/15: Updated to latest Xively API. COSM feeds no longer work
+//9/12/15: Removed some of Xively return and time stamp functions, watch dog is triggering too much
 
 //UdpNtpTime code modified from the Arduino tutorial written by Michael Margolis/Tom Igoe - http://arduino.cc/en/Tutorial/UdpNtpClient
 
@@ -124,7 +125,7 @@ void loop() {
   if (Serial.read()=='\n'){
   validate();
 
-sendNTPpacket(timeServer);  //check the time
+/*sendNTPpacket(timeServer);  //check the time
 delay(1000);
 if ( Udp.parsePacket() ) {  
     // We've received a packet, read the data from it
@@ -166,7 +167,7 @@ if ( Udp.parsePacket() ) {
       Serial.print('0');
     }
     Serial.println(epoch %60); // print the second
-*/
+
 hour = (((epoch-GMT_offset) % 86400L)/ 3600 ); //what hour of the day is it? GMT offset of 25200 seconds for PDT (7 hours behind)
 minutes = ((epoch %3600)/60);  // minute in the hour
 seconds = (epoch %60);// seconds in the minute
@@ -185,7 +186,7 @@ if (hour == 24 && minutes == 1)
   reset_counts();
 }
  }
-
+*/
 
 
 if (report==true)  
@@ -214,7 +215,7 @@ void printComma() // we do this a lot, it saves two bytes each time we call it
 }
 
 
-void uploadData()  // actually uploading to COSM
+void uploadData()  // actually uploading to Xively
 {
   datastreams[0].setFloat(Temp);
   datastreams[1].setFloat(Humidity);
@@ -228,8 +229,8 @@ wdt_reset();
 
 Serial.println("Uploading data to Xively");
  int ret = xivelyclient.put(feed, xivelyKey);
- Serial.print("xivelyclient.put returned ");
- Serial.println(ret);
+// Serial.print("xivelyclient.put returned ");
+// Serial.println(ret);
 
 }
 
@@ -307,6 +308,7 @@ void zeroData()
        report= false;
 }
 
+/*
 // send an NTP request to the time server at the given address
 unsigned long sendNTPpacket(IPAddress& address)
 {
@@ -336,3 +338,4 @@ void reset_counts()
 {
 
 }
+*/
